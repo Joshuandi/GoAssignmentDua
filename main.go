@@ -2,16 +2,14 @@ package main
 
 import (
 	"GoAssignmentDua/database"
-	"fmt"
-
-	//"log"
-	//"net/http"
-	//"time"
-
-	//"github.com/gorilla/mux"
-
+	order_handler "GoAssignmentDua/handler"
 	"database/sql"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
 
+	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
 
@@ -35,18 +33,18 @@ func main() {
 	}
 	fmt.Println("Successfully Connect to Database")
 
-	// r := mux.NewRouter()
-	// userHandler := user_handler.NewUserHandler(database.Db)
-	// r.HandleFunc("/users", userHandler.UserHandler)
-	// r.HandleFunc("/users/{id}", userHandler.UserHandler)
-	// srv := &http.Server{
-	// 	Handler: r,
-	// 	Addr:    "127.0.0.1:8088",
-	// 	// Good practice: enforce timeouts for servers you create!
-	// 	WriteTimeout: 15 * time.Second,
-	// 	ReadTimeout:  15 * time.Second,
-	// }
-	// log.Fatal(srv.ListenAndServe())
+	r := mux.NewRouter()
+	orderHandler := order_handler.NewOrderHandler(database.Db)
+	r.HandleFunc("/order", orderHandler.OrderHandler)
+	r.HandleFunc("/order/{id}", orderHandler.OrderHandler)
+	srv := &http.Server{
+		Handler: r,
+		Addr:    "127.0.0.1:8088",
+		// Good practice: enforce timeouts for servers you create!
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	log.Fatal(srv.ListenAndServe())
 }
 
 func ConnectDbPsql(host, user, password, dbname string, port int) string {
