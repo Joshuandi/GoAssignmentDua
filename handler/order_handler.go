@@ -165,7 +165,7 @@ func (o *OrderHandler) updateOrderHandler(w http.ResponseWriter, r *http.Request
 		if err != nil {
 			panic(err)
 		}
-		w.Write([]byte(fmt.Sprint("Update data", count)))
+		w.Write([]byte(fmt.Sprint("Update data :", count)))
 		return
 	}
 }
